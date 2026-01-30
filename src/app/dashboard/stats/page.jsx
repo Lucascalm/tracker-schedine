@@ -214,10 +214,12 @@ export default function StatsPage() {
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
                                         <div style={{ color: 'var(--success)', fontWeight: '600' }}>
-                                            25% Prelievo: €{t.withdrawable.toFixed(2)}
+                                            {/* 25% Prelievo */}
+                                            Prelievo: €{t.withdrawable.toFixed(2)}
                                         </div>
                                         <div style={{ color: 'var(--accent)', fontWeight: '500', fontSize: '0.9rem' }}>
-                                            15% → Base Gioco: €{t.baseIncrease?.toFixed(2) || '0.00'}
+                                            {/* 15% → Base Gioco */}
+                                            Base Gioco: €{t.baseIncrease?.toFixed(2) || '0.00'}
                                         </div>
                                     </div>
                                 </div>

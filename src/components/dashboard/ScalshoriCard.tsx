@@ -199,12 +199,14 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
                     <div className="grid grid-cols-2 gap-4 text-sm">
                         <div className="flex items-center gap-2">
                             <Wallet className="w-4 h-4 text-emerald-400" />
-                            <span className="text-gray-300">25% → Prelievi:</span>
+                            {/* 25% → Prelievi: */}
+                            <span className="text-gray-300">Prelievi:</span>
                             <span className="text-emerald-400 font-bold">€{withdrawalAmount.toFixed(2)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <TrendingUp className="w-4 h-4 text-indigo-400" />
-                            <span className="text-gray-300">15% → Base Gioco:</span>
+                            {/* 15% → Base Gioco: */}
+                            <span className="text-gray-300">Base Gioco:</span>
                             <span className="text-indigo-400 font-bold">+€{baseIncreaseAmount.toFixed(2)}</span>
                         </div>
                     </div>
