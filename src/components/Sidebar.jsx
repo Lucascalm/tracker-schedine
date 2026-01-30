@@ -85,6 +85,7 @@ export default function Sidebar() {
     const [initialBankroll, setInitialBankroll] = useState('')
     const [editingTipster, setEditingTipster] = useState(null)
     const [editName, setEditName] = useState('')
+    const [playingBase, setPlayingBase] = useState('')
     const pathname = usePathname()
 
     useEffect(() => {
@@ -114,12 +115,14 @@ export default function Sidebar() {
         const { error } = await supabase.from('tipsters').insert([{
             user_id: user.id,
             name: newTipsterName,
-            initial_bankroll: parseFloat(initialBankroll)
+            initial_bankroll: parseFloat(initialBankroll),
+            playing_base: playingBase ? parseFloat(playingBase) : parseFloat(initialBankroll)
         }])
         if (error) alert('Errore: ' + error.message)
         else {
             setNewTipsterName('')
             setInitialBankroll('')
+            setPlayingBase('')
             setIsAdding(false)
         }
     }
@@ -262,6 +265,12 @@ export default function Sidebar() {
                                     placeholder="Bankroll iniziale (€)"
                                     value={initialBankroll}
                                     onChange={(e) => setInitialBankroll(e.target.value)}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Base gioco (€) - opzionale"
+                                    value={playingBase}
+                                    onChange={(e) => setPlayingBase(e.target.value)}
                                 />
                                 <div className="modal-btns">
                                     <button type="submit" className="btn-primary">Crea</button>

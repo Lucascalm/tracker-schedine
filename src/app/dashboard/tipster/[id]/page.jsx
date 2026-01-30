@@ -23,6 +23,8 @@ export default function TipsterPage() {
     // Edit states
     const [isEditingInitial, setIsEditingInitial] = useState(false)
     const [tempInitial, setTempInitial] = useState('')
+    const [isEditingBase, setIsEditingBase] = useState(false)
+    const [tempBase, setTempBase] = useState('')
 
     const router = useRouter()
 
@@ -86,6 +88,16 @@ export default function TipsterPage() {
         if (!error) {
             setTipster({ ...tipster, initial_bankroll: newInitial })
             setIsEditingInitial(false)
+        }
+    }
+
+    const updatePlayingBase = async () => {
+        const newBase = parseFloat(tempBase)
+        if (isNaN(newBase) || newBase < 0) return
+        const { error } = await supabase.from('tipsters').update({ playing_base: newBase }).eq('id', id)
+        if (!error) {
+            setTipster({ ...tipster, playing_base: newBase })
+            setIsEditingBase(false)
         }
     }
 
@@ -232,6 +244,28 @@ export default function TipsterPage() {
                                 className="font-mono font-bold text-white hover:text-primary transition-colors border-b border-dashed border-white/20"
                             >
                                 €{Number(tipster.initial_bankroll).toFixed(2)}
+                            </button>
+                        )}
+                        <span className="mx-2">•</span>
+                        <span>Base Gioco:</span>
+                        {isEditingBase ? (
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="number"
+                                    value={tempBase}
+                                    onChange={e => setTempBase(e.target.value)}
+                                    className="bg-white/10 border border-white/20 rounded px-2 py-1 w-24 text-white"
+                                    autoFocus
+                                />
+                                <button onClick={updatePlayingBase} className="text-emerald-400 hover:text-emerald-300">✓</button>
+                                <button onClick={() => setIsEditingBase(false)} className="text-rose-400 hover:text-rose-300">✕</button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => { setTempBase(tipster.playing_base || tipster.initial_bankroll); setIsEditingBase(true) }}
+                                className="font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-colors border-b border-dashed border-indigo-400/30"
+                            >
+                                €{Number(tipster.playing_base || tipster.initial_bankroll).toFixed(2)}
                             </button>
                         )}
                         <span className="mx-2">•</span>
