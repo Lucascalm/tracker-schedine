@@ -7,6 +7,8 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { TrendChart } from '@/components/dashboard/TrendChart'
 import { BetHistoryTable } from '@/components/dashboard/BetHistoryTable'
 import { AIInsightCard } from '@/components/dashboard/AIInsightCard'
+import { ScalshoriCard } from '@/components/dashboard/ScalshoriCard'
+import { MonthlyStatsGrid } from '@/components/dashboard/MonthlyStatsGrid'
 import { Wallet, TrendingUp, Activity, PieChart, Plus } from 'lucide-react'
 import BetForm from '@/components/BetForm'
 
@@ -32,8 +34,14 @@ export default function TipsterPage() {
                 return
             }
             setUser(user)
-            await Promise.all([fetchTipster(), fetchBets(user.id)])
+            await fetchTipster()
+            await fetchBets(user.id)
             setLoading(false)
+        }
+
+        const refreshData = async () => {
+            await fetchTipster()
+            await fetchBets(user?.id)
         }
         init()
     }, [id])
@@ -255,8 +263,13 @@ export default function TipsterPage() {
                     )}
                 </div>
 
-                {/* AI / Extra Panel */}
+                {/* Scalshori & AI Panel */}
                 <div className="space-y-6">
+                    <ScalshoriCard
+                        tipster={tipster}
+                        currentBankroll={currentBankroll}
+                        onUpdate={() => { fetchTipster(); fetchBets(user?.id); }}
+                    />
                     <AIInsightCard data={history} />
                 </div>
             </div>
@@ -270,7 +283,9 @@ export default function TipsterPage() {
                 <BetForm onAddBet={addBet} currentTipster={tipster} />
             </div>
 
-            {/* Bet History Table */}
+            {/* Monthly Stats Grid */}
+            <MonthlyStatsGrid bets={bets} initialBankroll={tipster.initial_bankroll} />
+
             {/* Bet History Table */}
             <BetHistoryTable bets={bets} onUpdateBet={updateBet} onDeleteBet={deleteBet} />
 

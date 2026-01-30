@@ -93,13 +93,16 @@ export default function StatsPage() {
         })
         currentBankroll -= (tipsterData.total_withdrawals || 0)
 
-        const playingBase = tipsterData.playing_base || currentBankroll
-        const margin = playingBase ? currentBankroll - playingBase : 0
+        const playingBase = tipsterData.playing_base || tipsterData.initial_bankroll
+        const margin = currentBankroll - playingBase
         const withdrawalThreshold = tipsterData.withdrawal_threshold
         const thresholdReached = !withdrawalThreshold || currentBankroll >= withdrawalThreshold
-        const withdrawable = margin > 0 && thresholdReached ? currentBankroll * 0.26 : 0
 
-        return { roi, profitPercent, profit, totalStaked, withdrawable, currentBankroll, thresholdReached, margin, withdrawalThreshold }
+        // Scalshori method: 25% of margin goes to withdrawals
+        const withdrawable = margin > 0 && thresholdReached && tipsterData.use_scalshori_method ? margin * 0.25 : 0
+        const baseIncrease = margin > 0 && thresholdReached && tipsterData.use_scalshori_method ? margin * 0.15 : 0
+
+        return { roi, profitPercent, profit, totalStaked, withdrawable, baseIncrease, currentBankroll, thresholdReached, margin, withdrawalThreshold, playingBase }
     }
 
     const handleWithdraw = async (tipster, amount) => {
@@ -209,8 +212,30 @@ export default function StatsPage() {
                                         <span style={{ fontWeight: '600', fontSize: '1.1rem' }}>👤 {t.name}</span>
                                         <span style={{ color: 'var(--text-muted)', marginLeft: '1rem', fontSize: '0.9rem' }}>Saldo: €{t.currentBankroll.toFixed(2)}</span>
                                     </div>
-                                    <div style={{ color: 'var(--success)', fontWeight: '600' }}>
-                                        Max prelevabile: €{t.withdrawable.toFixed(2)}
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ color: 'var(--success)', fontWeight: '600' }}>
+                                            25% Prelievo: €{t.withdrawable.toFixed(2)}
+                                        </div>
+                                        <div style={{ color: 'var(--accent)', fontWeight: '500', fontSize: '0.9rem' }}>
+                                            15% → Base Gioco: €{t.baseIncrease?.toFixed(2) || '0.00'}
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Scalshori Info */}
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '1rem', padding: '0.75rem', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '8px' }}>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Base Gioco</div>
+                                        <div style={{ fontWeight: '600' }}>€{t.playingBase?.toFixed(2) || '0.00'}</div>
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Margine</div>
+                                        <div style={{ fontWeight: '600', color: t.margin >= 0 ? 'var(--success)' : 'var(--danger)' }}>
+                                            {t.margin >= 0 ? '+' : ''}€{t.margin.toFixed(2)}
+                                        </div>
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Dopo Aggiorna</div>
+                                        <div style={{ fontWeight: '600' }}>€{(t.currentBankroll - t.withdrawable - (t.baseIncrease || 0)).toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -223,10 +248,10 @@ export default function StatsPage() {
                                         style={{ padding: '0.6rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'white', width: '140px' }}
                                     />
                                     <button onClick={() => handleWithdraw(t, parseFloat(customAmounts[t.id]) || 0)} style={{ padding: '0.6rem 1rem', borderRadius: '8px', border: 'none', background: 'var(--primary)', color: 'white', fontWeight: '500', cursor: 'pointer' }}>
-                                        Preleva Importo
+                                        Preleva Manuale
                                     </button>
-                                    <button onClick={() => handleWithdraw(t, t.withdrawable)} style={{ padding: '0.6rem 1.2rem', borderRadius: '8px', border: 'none', background: 'linear-gradient(135deg, var(--success), #059669)', color: 'white', fontWeight: '600', cursor: 'pointer' }}>
-                                        💸 Preleva Max (€{t.withdrawable.toFixed(2)})
+                                    <button onClick={() => handleWithdraw(t, t.withdrawable)} style={{ padding: '0.6rem 1.2rem', borderRadius: '8px', border: 'none', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: 'white', fontWeight: '600', cursor: 'pointer' }}>
+                                        ⚡ Applica Scalshori
                                     </button>
                                 </div>
                             </div>
