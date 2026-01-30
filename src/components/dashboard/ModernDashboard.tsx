@@ -394,37 +394,36 @@ export default function ModernDashboard() {
 
                     {/* Charts Section - Full Width */}
                     <div className="glass-card p-6">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-bold flex items-center gap-2">
-                                    <Activity className="w-5 h-5 text-primary" />
-                                    Andamento {timeFilter === 'all' ? 'Totale' : 'Periodo'}
-                                </h3>
-                                <span className={`text-sm font-bold px-3 py-1 rounded-full ${variation >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
-                                    {variation >= 0 ? '+' : ''}€{variation.toLocaleString()}
-                                </span>
-                            </div>
-                            <TrendChart
-                                data={history}
-                                color={variation >= 0 ? "#10b981" : "#ef4444"}
-                                gradientId="bankrollGradient"
-                            />
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-lg font-bold flex items-center gap-2">
+                                <Activity className="w-5 h-5 text-primary" />
+                                Andamento {timeFilter === 'all' ? 'Totale' : 'Periodo'}
+                            </h3>
+                            <span className={`text-sm font-bold px-3 py-1 rounded-full ${variation >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                                {variation >= 0 ? '+' : ''}€{variation.toLocaleString()}
+                            </span>
+                        </div>
+                        <TrendChart
+                            data={history}
+                            color={variation >= 0 ? "#10b981" : "#ef4444"}
+                            gradientId="bankrollGradient"
+                        />
 
-                            {/* Stats Footer */}
-                            <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/5">
-                                <div>
-                                    <p className="text-gray-400 text-xs uppercase font-semibold">Massimo</p>
-                                    <p className="text-emerald-400 font-bold text-lg">€{maxBalance.toLocaleString()}</p>
-                                </div>
-                                <div>
-                                    <p className="text-gray-400 text-xs uppercase font-semibold">Minimo</p>
-                                    <p className="text-rose-400 font-bold text-lg">€{minBalance.toLocaleString()}</p>
-                                </div>
-                                <div>
-                                    <p className="text-gray-400 text-xs uppercase font-semibold">Media</p>
-                                    <p className="text-indigo-400 font-bold text-lg">
-                                        €{(history.reduce((a, b) => a + b.value, 0) / (history.length || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                                    </p>
-                                </div>
+                        {/* Stats Footer */}
+                        <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/5">
+                            <div>
+                                <p className="text-gray-400 text-xs uppercase font-semibold">Massimo</p>
+                                <p className="text-emerald-400 font-bold text-lg">€{maxBalance.toLocaleString()}</p>
+                            </div>
+                            <div>
+                                <p className="text-gray-400 text-xs uppercase font-semibold">Minimo</p>
+                                <p className="text-rose-400 font-bold text-lg">€{minBalance.toLocaleString()}</p>
+                            </div>
+                            <div>
+                                <p className="text-gray-400 text-xs uppercase font-semibold">Media</p>
+                                <p className="text-indigo-400 font-bold text-lg">
+                                    €{(history.reduce((a, b) => a + b.value, 0) / (history.length || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                                </p>
                             </div>
                         </div>
                     </div>
