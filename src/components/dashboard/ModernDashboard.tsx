@@ -294,12 +294,12 @@ export default function ModernDashboard() {
     const variation = endVal - startVal;
 
     return (
-        <div className="p-6 md:p-8 space-y-8 bg-[#0a0a0f] min-h-screen text-white font-sans">
+        <div className="p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8 bg-[#0a0a0f] min-h-screen text-white font-sans">
 
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                    <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                         Performance Dashboard
                     </h1>
                     <p className="text-gray-400 mt-1">Bentornato, Pro Tipster 👋</p>
@@ -377,8 +377,8 @@ export default function ModernDashboard() {
                 </div>
             ) : (
                 <>
-                    {/* KPI Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* KPI Grid - 2x2 on mobile, 4 cols on desktop */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                         {kpis.map((stat, idx) => (
                             <StatCard
                                 key={idx}
@@ -409,8 +409,8 @@ export default function ModernDashboard() {
                             gradientId="bankrollGradient"
                         />
 
-                        {/* Stats Footer */}
-                        <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/5">
+                        {/* Stats Footer - Stack on mobile */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/5">
                             <div>
                                 <p className="text-gray-400 text-xs uppercase font-semibold">Massimo</p>
                                 <p className="text-emerald-400 font-bold text-lg">€{maxBalance.toLocaleString()}</p>

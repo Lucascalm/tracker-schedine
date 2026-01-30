@@ -30,3 +30,50 @@ body {
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
+
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+  /* Increase touch targets */
+  button, a, input, select {
+    min-height: 44px;
+  }
+  
+  /* Better spacing */
+  .glass-card {
+    padding: 1rem !important;
+  }
+  
+  /* Hide on mobile */
+  .hide-mobile {
+    display: none !important;
+  }
+  
+  /* Full width on mobile */
+  .mobile-full {
+    width: 100% !important;
+  }
+  
+  /* Stack on mobile */
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  
+  /* Larger text on mobile */
+  .mobile-text-lg {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Show only on mobile */
+@media (min-width: 768px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Better scrolling on mobile */
+@supports (-webkit-touch-callout: none) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}

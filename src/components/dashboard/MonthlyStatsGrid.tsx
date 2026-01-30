@@ -118,7 +118,7 @@ export const MonthlyStatsGrid: React.FC<MonthlyStatsGridProps> = ({ bets, initia
     }
 
     return (
-        <div className="glass-card p-6">
+        <div className="glass-card p-4 md:p-6">
             {/* Header with Year Selector */}
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -151,38 +151,38 @@ export const MonthlyStatsGrid: React.FC<MonthlyStatsGridProps> = ({ bets, initia
                 </div>
             </div>
 
-            {/* Year Summary */}
-            <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-xl p-4 mb-6 border border-indigo-500/20">
-                <div className="grid grid-cols-4 gap-4 text-center">
+            {/* Year Summary - 2x2 on mobile */}
+            <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-xl p-3 md:p-4 mb-4 md:mb-6 border border-indigo-500/20">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
                     <div>
                         <p className="text-xs text-gray-400 uppercase mb-1">Profitto Anno</p>
-                        <p className={`text-xl font-bold ${yearTotals.profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className={`text-lg md:text-xl font-bold ${yearTotals.profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {yearTotals.profit >= 0 ? '+' : ''}€{yearTotals.profit.toFixed(2)}
                         </p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400 uppercase mb-1">ROI Anno</p>
-                        <p className={`text-xl font-bold ${yearRoi >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className={`text-lg md:text-xl font-bold ${yearRoi >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {yearRoi.toFixed(1)}%
                         </p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400 uppercase mb-1">Win Rate</p>
-                        <p className={`text-xl font-bold ${yearWinRate >= 50 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className={`text-lg md:text-xl font-bold ${yearWinRate >= 50 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {yearWinRate.toFixed(1)}%
                         </p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400 uppercase mb-1">Scommesse</p>
-                        <p className="text-xl font-bold text-white">
+                        <p className="text-lg md:text-xl font-bold text-white">
                             {yearTotals.won + yearTotals.lost}
                         </p>
                     </div>
                 </div>
             </div>
 
-            {/* Monthly Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Monthly Grid - 2 cols on mobile */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {filteredMonths.map(month => (
                     <div
                         key={month.key}

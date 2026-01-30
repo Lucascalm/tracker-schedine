@@ -159,7 +159,7 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
     }
 
     return (
-        <div className="glass-card p-6 border-l-4 border-indigo-500">
+        <div className="glass-card p-4 md:p-6 border-l-4 border-indigo-500">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -174,19 +174,19 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
                 </button>
             </div>
 
-            {/* Current State */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-surface rounded-xl p-4 border border-white/5">
+            {/* Current State - Stack on mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
+                <div className="bg-surface rounded-xl p-3 md:p-4 border border-white/5">
                     <p className="text-gray-400 text-xs uppercase font-semibold mb-1">Bankroll Attuale</p>
-                    <p className="text-xl font-bold text-white">€{currentBankroll.toFixed(2)}</p>
+                    <p className="text-lg md:text-xl font-bold text-white">€{currentBankroll.toFixed(2)}</p>
                 </div>
-                <div className="bg-surface rounded-xl p-4 border border-white/5">
+                <div className="bg-surface rounded-xl p-3 md:p-4 border border-white/5">
                     <p className="text-gray-400 text-xs uppercase font-semibold mb-1">Base Gioco</p>
-                    <p className="text-xl font-bold text-white">€{playingBase.toFixed(2)}</p>
+                    <p className="text-lg md:text-xl font-bold text-white">€{playingBase.toFixed(2)}</p>
                 </div>
-                <div className="bg-surface rounded-xl p-4 border border-white/5">
+                <div className="bg-surface rounded-xl p-3 md:p-4 border border-white/5">
                     <p className="text-gray-400 text-xs uppercase font-semibold mb-1">Margine</p>
-                    <p className={`text-xl font-bold ${margin >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <p className={`text-lg md:text-xl font-bold ${margin >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {margin >= 0 ? '+' : ''}€{margin.toFixed(2)}
                     </p>
                 </div>

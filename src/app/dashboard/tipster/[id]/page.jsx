@@ -274,16 +274,16 @@ export default function TipsterPage() {
                 </div>
             </div>
 
-            {/* KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* KPI Grid - 2x2 on mobile */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                 {kpis.map((stat, idx) => (
                     <StatCard key={idx} {...stat} />
                 ))}
             </div>
 
-            {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 glass-card p-6">
+            {/* Charts Section - Stack on mobile */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                <div className="lg:col-span-2 glass-card p-4 md:p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold flex items-center gap-2 text-white">
                             <Activity className="w-5 h-5 text-primary" />
@@ -309,7 +309,7 @@ export default function TipsterPage() {
             </div>
 
             {/* New Bet Form Section */}
-            <div className="glass-card p-6 border-l-4 border-primary">
+            <div className="glass-card p-4 md:p-6 border-l-4 border-primary">
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                     <Plus className="w-6 h-6 text-primary" />
                     Nuova Giocata
