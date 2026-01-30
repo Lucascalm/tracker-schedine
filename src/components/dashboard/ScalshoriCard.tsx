@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import { TrendingUp, Wallet, RefreshCcw, Undo2, Settings } from 'lucide-react'
+import { TrendingUp, Wallet, RefreshCcw, Undo2, Settings, Edit2, Check, X } from 'lucide-react'
 
 interface ScalshoriCardProps {
     tipster: {
@@ -21,6 +21,10 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
     const [loading, setLoading] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [lastOperation, setLastOperation] = useState<any>(null)
+
+    // Edit base gioco state
+    const [isEditingBase, setIsEditingBase] = useState(false)
+    const [tempBase, setTempBase] = useState('')
 
     // Calculate values
     const playingBase = tipster.playing_base || tipster.initial_bankroll
@@ -44,8 +48,10 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) throw new Error('User not authenticated')
 
-            // 1. Log the operation for undo capability
+            // 1. Log the operation for undo capability - generate UUID client-side
+            const operationId = crypto.randomUUID()
             const { data: opData, error: opError } = await supabase.from('scalshori_operations').insert([{
+                id: operationId,
                 tipster_id: tipster.id,
                 user_id: user.id,
                 margin_before: margin,
@@ -131,6 +137,21 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
         if (!error) onUpdate()
     }
 
+    // Update playing base manually
+    const updatePlayingBase = async () => {
+        const newBase = parseFloat(tempBase)
+        if (isNaN(newBase) || newBase < 0) return
+
+        const { error } = await supabase.from('tipsters').update({
+            playing_base: newBase
+        }).eq('id', tipster.id)
+
+        if (!error) {
+            setIsEditingBase(false)
+            onUpdate()
+        }
+    }
+
     // If method is disabled, show activation button
     if (!tipster.use_scalshori_method) {
         return (
@@ -180,7 +201,31 @@ export const ScalshoriCard: React.FC<ScalshoriCardProps> = ({ tipster, currentBa
                 </div>
                 <div className="bg-surface rounded-xl p-4 border border-white/5">
                     <p className="text-gray-400 text-xs uppercase font-semibold mb-1">Base Gioco</p>
-                    <p className="text-xl font-bold text-white">€{playingBase.toFixed(2)}</p>
+                    {isEditingBase ? (
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="number"
+                                value={tempBase}
+                                onChange={e => setTempBase(e.target.value)}
+                                className="bg-white/10 border border-white/20 rounded px-2 py-1 w-20 text-white text-lg font-bold"
+                                autoFocus
+                            />
+                            <button onClick={updatePlayingBase} className="text-emerald-400 hover:text-emerald-300">
+                                <Check className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => setIsEditingBase(false)} className="text-rose-400 hover:text-rose-300">
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                    ) : (
+                        <button
+                            onClick={() => { setTempBase(String(playingBase)); setIsEditingBase(true) }}
+                            className="text-xl font-bold text-white hover:text-indigo-400 transition-colors flex items-center gap-2"
+                        >
+                            €{playingBase.toFixed(2)}
+                            <Edit2 className="w-3 h-3 opacity-50" />
+                        </button>
+                    )}
                 </div>
                 <div className="bg-surface rounded-xl p-4 border border-white/5">
                     <p className="text-gray-400 text-xs uppercase font-semibold mb-1">Margine</p>
